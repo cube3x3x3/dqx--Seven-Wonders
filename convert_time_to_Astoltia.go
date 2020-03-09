@@ -3,5 +3,5 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Printf("hello, dqx\n")
+	fmt.Printf("Astoltia time is 00:00.\n")
 }
