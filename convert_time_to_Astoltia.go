@@ -16,7 +16,9 @@ func SecToAstoltiaTime(sec int) time.Time {
 	return astDate.Add(time.Duration(astSec) * time.Second)
 }
 
-func AstoltiaNights(AstTime time.Time) (astDay int, astHour int, astMin int, astSec int) {
+func AstoltiaNights(setTime time.Time) (astDay int, astHour int, astMin int, astSec int) {
+	daySec := DaySeconds(setTime)
+	AstTime := SecToAstoltiaTime(int(daySec))
 	return AstTime.Day(), AstTime.Hour(), AstTime.Minute(), AstTime.Second()
 }
 
@@ -26,6 +28,6 @@ func main() {
 	Adate := SecToAstoltiaTime(180)
 	fmt.Println("Astoltia time is ", Adate)
 	fmt.Println("Astoltia time is ", SecToAstoltiaTime(int(daySec)))
-	day, hour, min, sec := AstoltiaNights(SecToAstoltiaTime(int(daySec)))
+	day, hour, min, sec := AstoltiaNights(time.Now())
 	fmt.Printf("Astoltia time is %dNights %d:%d:%d", day, hour, min, sec)
 }
