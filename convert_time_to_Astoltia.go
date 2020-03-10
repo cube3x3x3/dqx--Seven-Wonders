@@ -5,14 +5,18 @@ import (
 	"time"
 )
 
+func DayMinutes(setTime time.Time) float64 {
+	duration := setTime.Sub(time.Date(setTime.Year(), setTime.Month(), setTime.Day(), 0, 0, 0, 0, time.Local))
+	return duration.Minutes()
+}
+
 func ConvertToAstoltiaTime(setTime time.Time) float64 {
-	y := setTime.Year()
-	m := setTime.Month()
-	d := setTime.Day()
-	initDay := time.Date(y, m, d, 0, 0, 0, 0, time.Local)
-	sub := setTime.Sub(initDay)
-	fmt.Println(y, m, d, initDay, sub)
-	AstoltiaTime := sub.Minutes() / 72
+	sub := DayMinutes(setTime)
+	AstoltiaDays := int(sub / 72)
+	AstoltiaTime := sub - (float64(AstoltiaDays) * 72)
+	AstHour := int(AstoltiaTime)
+	AstMin := (AstoltiaTime - float64(AstHour)) * 60
+	fmt.Printf("hour %d, min %f", AstHour, AstMin)
 	return AstoltiaTime
 }
 
