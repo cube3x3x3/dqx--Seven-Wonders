@@ -5,23 +5,27 @@ import (
 	"time"
 )
 
-func DayMinutes(setTime time.Time) float64 {
+func DaySeconds(setTime time.Time) float64 {
 	duration := setTime.Sub(time.Date(setTime.Year(), setTime.Month(), setTime.Day(), 0, 0, 0, 0, time.Local))
-	return duration.Minutes()
+	return duration.Seconds()
 }
 
-func ConvertToAstoltiaTime(setTime time.Time) float64 {
-	sub := DayMinutes(setTime)
-	AstoltiaDays := int(sub / 72)
-	AstoltiaTime := sub - (float64(AstoltiaDays) * 72)
-	AstHour := int(AstoltiaTime)
-	AstMin := (AstoltiaTime - float64(AstHour)) * 60
-	fmt.Printf("hour %d, min %f", AstHour, AstMin)
-	return AstoltiaTime
+func SecToAstoltiaTime(sec int) time.Time {
+	astSec := sec * 20
+	astDate := time.Date(2012, 1, 1, 0, 0, 0, 0, time.UTC)
+	return astDate.Add(time.Duration(astSec) * time.Second)
+}
+
+func AstoltiaNights(AstTime time.Time) (astDay int, astHour int, astMin int, astSec int) {
+	return AstTime.Day(), AstTime.Hour(), AstTime.Minute(), AstTime.Second()
 }
 
 func main() {
-	Atime := ConvertToAstoltiaTime(time.Now())
-	fmt.Printf("Astoltia time is %f.\n", Atime)
-
+	daySec := DaySeconds(time.Now())
+	fmt.Println(daySec)
+	Adate := SecToAstoltiaTime(180)
+	fmt.Println("Astoltia time is ", Adate)
+	fmt.Println("Astoltia time is ", SecToAstoltiaTime(int(daySec)))
+	day, hour, min, sec := AstoltiaNights(SecToAstoltiaTime(int(daySec)))
+	fmt.Printf("Astoltia time is %dNights %d:%d:%d", day, hour, min, sec)
 }
