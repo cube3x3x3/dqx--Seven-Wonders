@@ -22,10 +22,11 @@ func AstoltiaNights(setTime time.Time) (astDay int, astHour int, astMin int, ast
 	return AstTime.Day(), AstTime.Hour(), AstTime.Minute(), AstTime.Second()
 }
 
-func AstNightsToMin(AstTime time.Time, nights int) float64 {
-	// アストルティアの66夜後が何分後になるか
-	targetTime := AstTime.AddDate(0, 0, nights)
-	duration := targetTime.Sub(AstTime)
+func AstNightsToMin(setTime time.Time, nights int) float64 {
+	// アストルティアのn夜後が、リアル時間のn分後になるか
+	// アストルティアは20倍速で時間が進んでいる
+	targetTime := setTime.AddDate(0, 0, nights)
+	duration := targetTime.Sub(setTime)
 	return duration.Minutes() / 20
 }
 
