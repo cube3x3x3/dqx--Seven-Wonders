@@ -51,6 +51,25 @@ func TestAstNightsToReal(t *testing.T) {
 	}
 }
 
+func TestAstNightsToRealTable(t *testing.T) {
+	tests := []struct {
+		y, m, d, hh, mm, nights, wantY, wantM, wantD, wantHh, wantMm int
+	}{
+		{2020, 3, 10, 7, 0, 22, 2020, 3, 11, 9, 24},
+		{2020, 3, 10, 7, 0, 65, 2020, 3, 13, 13, 0},
+		{2020, 3, 10, 7, 0, 66, 2020, 3, 13, 14, 12},
+		{2020, 3, 10, 7, 0, 67, 2020, 3, 13, 15, 24},
+	}
+	for _, tt := range tests {
+		ttTime := time.Date(tt.y, time.Month(tt.m), tt.d, tt.hh, tt.mm, 0, 0, time.Local)
+		ttWant := time.Date(tt.wantY, time.Month(tt.wantM), tt.wantD, tt.wantHh, tt.wantMm, 0, 0, time.Local)
+		gotTime := getNextWonderTime(ttTime, tt.nights)
+		if gotTime != ttWant {
+			t.Errorf("rangetest to faild. exect:%v, actual:%v", ttWant, gotTime)
+		}
+	}
+}
+
 /*
 	daySec := DaySeconds(time.Now())
 	fmt.Println(daySec)

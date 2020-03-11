@@ -29,6 +29,11 @@ func AstNightsToMin(AstTime time.Time, nights int) float64 {
 	return duration.Minutes() / 20
 }
 
+func getNextWonderTime(setTime time.Time, nights int) time.Time {
+	tomin := AstNightsToMin(setTime, nights)
+	return setTime.Add(time.Duration(tomin) * time.Minute)
+}
+
 func main() {
 	day, hour, min, sec := AstoltiaNights(time.Now())
 	fmt.Printf("Astoltia time is %dNights %2d:%2d:%2d\n", day, hour, min, sec)
