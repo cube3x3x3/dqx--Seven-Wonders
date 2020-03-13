@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"time"
 )
 
@@ -35,7 +36,19 @@ func getNextWonderTime(setTime time.Time, nights int) time.Time {
 	return setTime.Add(time.Duration(tomin) * time.Minute)
 }
 
+func nextWonder(stime string, nights int) time.Time {
+	layout := "2006-01-02 15:04:05"
+	setTime, err := time.Parse(layout, stime)
+	if err != nil {
+		log.Printf("nextWonder input:%v, %v: err:%v", stime, nights, err)
+	} //loging
+
+	return getNextWonderTime(setTime, nights)
+}
+
 func main() {
 	day, hour, min, sec := AstoltiaNights(time.Now())
 	fmt.Printf("Astoltia time is %dNights %2d:%2d:%2d\n", day, hour, min, sec)
+	layout := "2006-01-02 15:04:05"
+	fmt.Printf("output:%v", nextWonder("2020-03-13 14:00:00", 66).Format(layout))
 }
